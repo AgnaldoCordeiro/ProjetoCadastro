@@ -1,0 +1,329 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  //provider = "sqlserver"
+  //url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Bairro {
+  cd_bairro         Int                 @id @default(autoincrement())
+  ds_bairro         String
+  cd_cidade         String?
+  cd_setor          String?
+  ds_bairro_tribuna String?
+  Cidade            Cidade?             @relation(fields: [cd_cidade], references: [cd_cidade], onDelete: NoAction, onUpdate: NoAction)
+  Formulario_Pessoa Formulario_Pessoa[]
+}
+
+model Cidade {
+  cd_cidade         String              @id
+  ds_cidade         String
+  uf_cidade         String?
+  cidade_natal      String?
+  Bairro            Bairro[]
+  Formulario_Pessoa Formulario_Pessoa[]
+}
+
+model CORREIOS_ONLINE {
+  cep_numero           String    @id
+  tipo_descricao       String
+  logradouro_descricao String
+  chave_bairro         Decimal
+  bairro_descricao     String
+  chave_cidade         Decimal
+  cidade_descricao     String
+  uf_sigla             String
+  data_atualizacao     DateTime?
+  trecho_paridade      String?
+  cd_titulo_logradouro String?
+  cd_tipo_logradouro   String?
+  cd_cidade            String?
+  cd_bairro            Int?
+}
+
+model ESCOLARIDADE {
+  cd_escolaridade   Decimal             @id
+  ds_escolaridade   String?
+  Formulario_Pessoa Formulario_Pessoa[]
+}
+
+model Estado_Civil {
+  cd_estado_civil   String              @id
+  ds_estado_civil   String
+  Formulario_Pessoa Formulario_Pessoa[]
+}
+
+model Formulario_Pessoa {
+  cgc_pessoa                           String                 @id
+  dt_cadastro_pessoa                   DateTime?              @default(now())
+  nm_pessoa                            String?
+  nm_fantasia_pessoa                   String?
+  rg_pessoa                            String?
+  cd_expedidor_pessoa                  String?
+  ds_naturalidade_pessoa               String?
+  dt_nascimento_pessoa                 DateTime?
+  ie_pessoa                            String?
+  cd_estado_civil_pessoa               String?
+  im_pessoa                            String?
+  cd_profissao_pessoa                  Decimal?
+  end_pessoa                           String?
+  cd_bairro_pessoa                     Int?
+  nu_endereco_pessoa                   String?
+  cep_pessoa                           String?
+  end_complemento_pessoa               String?
+  cd_cidade_pessoa                     String?
+  cd_tipo_logradouro_pessoa            String?
+  nu_fone_pessoa                       String?
+  nm_conjuge                           String?
+  cd_profissao_conjuge                 String?
+  cd_expedidor_conjuge                 String?
+  nu_celular_pessoa                    String?
+  cic_conjuge                          String?
+  rg_conjuge                           String?
+  dt_nascimento_conjuge                DateTime?
+  nu_caixa_postal_pessoa               String?
+  tipo_pessoa                          String?
+  e_mail_pessoa                        String?
+  nm_contato                           String?
+  dt_nascimento_contato                DateTime?
+  end_cobranca                         String?
+  nu_endereco_cobranca                 String?
+  end_complemento_cobranca             String?
+  cd_bairro_cobranca                   String?
+  ds_bairro_cobranca                   String?
+  cd_tipo_logradouro_cobranca          String?
+  cd_cidade_cobranca                   String?
+  ds_cidade_cobranca                   String?
+  uf_cobranca                          String?
+  cep_cobranca                         String?
+  nu_caixa_postal_cobranca             String?
+  obs_pessoa                           String?
+  cd_escolaridade                      Decimal?
+  sexo                                 String?
+  vlr_salario                          Decimal?
+  e_mail_extrato                       String?
+  nu_fone_zap                          Decimal?
+  matricula_afiancado_imovel           String?
+  end_imovel_afiancado                 String?
+  cd_cidade_afiancado                  Int?
+  nm_contato_fiador                    String?
+  nu_fone_contato_fiador               String?
+  nu_fone_comercial_fiador             String?
+  cd_bairro_fiador                     Int?
+  cd_bairro_trabalho                   Int?
+  cd_bairro_trabalho_conjugue          Int?
+  cd_bairro_trabalho_conjugue_fiador   Int?
+  cd_bairro_trabalho_fiador            Int?
+  cd_cidade_fiador                     String?
+  cd_cidade_trabalho                   String?
+  cd_cidade_trabalho_conjugue          String?
+  cd_cidade_trabalho_conjugue_fiador   String?
+  cd_cidade_trabalho_fiador            String?
+  cd_escolaridade_fiador               Decimal?
+  cd_estado_civil_fiador               String?
+  cd_expedidor_conjuge_fiador          String?
+  cd_expedidor_fiador                  String?
+  cd_profissao_conjuge_fiador          String?
+  cd_profissao_fiador                  Decimal?
+  cd_tipo_logradouro_fiador            String?
+  cep_fiador                           String?
+  cep_trabalho                         String?
+  cep_trabalho_conjugue                String?
+  cep_trabalho_conjugue_fiador         String?
+  cep_trabalho_fiador                  String?
+  cic_conjuge_fiador                   String?
+  cis_fiador                           String?
+  ds_admissao                          DateTime?
+  ds_admissao_conjugue                 DateTime?
+  ds_admissao_conjugue_fiador          DateTime?
+  ds_admissao_fiador                   DateTime?
+  ds_filicao_mae_conjuge               String?
+  ds_filicao_mae_conjuge_fiador        String?
+  ds_filicao_mae_fiador                String?
+  ds_filicao_mae_pessoa                String?
+  ds_filicao_pai_conjuge               String?
+  ds_filicao_pai_conjuge_fiador        String?
+  ds_filicao_pai_fiador                String?
+  ds_filicao_pai_pessoa                String?
+  ds_local_trabalho                    String?
+  ds_local_trabalho_conjugue           String?
+  ds_local_trabalho_conjugue_fiador    String?
+  ds_local_trabalho_fiador             String?
+  ds_naturalidade_conjuge              String?
+  ds_naturalidade_conjuge_fiador       String?
+  ds_naturalidade_fiador               String?
+  ds_pessoas_qi_morar                  String?
+  dt_cadastro_fiador                   DateTime?              @default(now())
+  dt_nascimento_conjuge_fiador         DateTime?
+  dt_nascimento_fiador                 DateTime?
+  e_mail_conjugue                      String?
+  e_mail_conjugue_fiador               String?
+  e_mail_fiador                        String?
+  end_complemento_fiador               String?
+  end_contato                          String?
+  end_contato_pr_fiador                String?
+  end_contato_sg                       String?
+  end_contato_sg_fiador                String?
+  end_fiador                           String?
+  end_trabalho                         String?
+  end_trabalho_conjugue                String?
+  end_trabalho_conjugue_fiador         String?
+  end_trabalho_fiador                  String?
+  ie_fiador                            String?
+  im_fiador                            String?
+  nm_adultos                           Int?
+  nm_conjuge_fiador                    String?
+  nm_contato_pr_fiador                 String?
+  nm_contato_sg                        String?
+  nm_contato_sg_fiador                 String?
+  nm_criancas                          Int?
+  nm_fantasia_fiador                   String?
+  nm_fiador                            String?
+  nm_pessoas                           Int?
+  nu_celular_conjuge                   String?
+  nu_celular_conjuge_fiador            String?
+  nu_celular_fiador                    String?
+  nu_endereco_fiador                   String?
+  nu_endereco_trabalho                 String?
+  nu_endereco_trabalho_conjugue        String?
+  nu_endereco_trabalho_conjugue_fiador String?
+  nu_endereco_trabalho_fiador          String?
+  nu_fone_contato                      String?
+  nu_fone_contato_pr_fiador            String?
+  nu_fone_contato_sg                   String?
+  nu_fone_contato_sg_fiador            String?
+  nu_fone_fiador                       String?
+  nu_fone_trabalho                     String?
+  nu_fone_trabalho_conjugue            String?
+  nu_fone_trabalho_conjugue_fiador     String?
+  nu_fone_trabalho_fiador              String?
+  nu_fone_zap_fiador                   Decimal?
+  num_animais                          Int?
+  obs_fiador                           String?
+  rg_conjuge_fiador                    String?
+  rg_fiador                            String?
+  tipo_fiador                          String?
+  vlr_salario_conjuge                  Decimal?
+  vlr_salario_conjuge_fiador           Decimal?
+  vlr_salario_fiador                   Decimal?
+  banco                                String?
+  cd_bairro_fiador_one                 Int?
+  cd_bairro_fiador_two                 Int?
+  cd_cidade_fiador_one                 String?
+  cd_cidade_fiador_two                 String?
+  cd_escolaridade_fiador_one           Decimal?
+  cd_escolaridade_fiador_two           Decimal?
+  cd_estado_civil_fiador_one           String?
+  cd_estado_civil_fiador_two           String?
+  cd_expedidor_fiador_one              String?
+  cd_expedidor_fiador_two              String?
+  cd_profissao_fiador_one              Decimal?
+  cd_profissao_fiador_two              Decimal?
+  cd_tipo_logradouro_fiador_one        String?
+  cd_tipo_logradouro_fiador_two        String?
+  cep_fiador_one                       String?
+  cep_fiador_two                       String?
+  cis_fiador_one                       String?
+  cis_fiador_two                       String?
+  conta                                String?
+  ds_filicao_mae_fiador_one            String?
+  ds_filicao_mae_fiador_two            String?
+  ds_filicao_pai_fiador_one            String?
+  ds_filicao_pai_fiador_two            String?
+  ds_info_imovel_fiador                String?
+  ds_info_imovel_fiador_one            String?
+  ds_info_imovel_fiador_two            String?
+  ds_naturalidade_fiador_one           String?
+  ds_naturalidade_fiador_two           String?
+  dt_cadastro_fiador_one               DateTime?              @default(now())
+  dt_cadastro_fiador_two               DateTime?              @default(now())
+  dt_nascimento_fiador_one             DateTime?
+  dt_nascimento_fiador_two             DateTime?
+  e_mail_fiador_one                    String?
+  e_mail_fiador_two                    String?
+  end_complemento_fiador_one           String?
+  end_complemento_fiador_two           String?
+  end_fiador_one                       String?
+  end_fiador_two                       String?
+  fornecedor                           String?
+  ie_fiador_one                        String?
+  ie_fiador_two                        String?
+  im_fiador_one                        String?
+  im_fiador_two                        String?
+  nm_fantasia_fiador_one               String?
+  nm_fantasia_fiador_two               String?
+  nm_fiador_one                        String?
+  nm_fiador_two                        String?
+  nu_celular_fiador_one                String?
+  nu_celular_fiador_two                String?
+  nu_endereco_fiador_one               String?
+  nu_endereco_fiador_two               String?
+  nu_fone_banco                        String?
+  nu_fone_fiador_one                   String?
+  nu_fone_fiador_two                   String?
+  nu_fone_fornecedor                   String?
+  nu_fone_zap_fiador_one               Decimal?
+  nu_fone_zap_fiador_two               Decimal?
+  obs_fiador_one                       String?
+  obs_fiador_two                       String?
+  rg_fiador_one                        String?
+  rg_fiador_two                        String?
+  tipo_fiador_one                      String?
+  tipo_fiador_two                      String?
+  vlr_salario_fiador_one               Decimal?
+  vlr_salario_fiador_two               Decimal?
+  ESCOLARIDADE                         ESCOLARIDADE?          @relation(fields: [cd_escolaridade], references: [cd_escolaridade], onDelete: NoAction, onUpdate: NoAction)
+  Bairro                               Bairro?                @relation(fields: [cd_bairro_pessoa], references: [cd_bairro], onDelete: NoAction, onUpdate: NoAction)
+  Cidade                               Cidade?                @relation(fields: [cd_cidade_pessoa], references: [cd_cidade], onDelete: NoAction, onUpdate: NoAction)
+  Estado_Civil                         Estado_Civil?          @relation(fields: [cd_estado_civil_pessoa], references: [cd_estado_civil], onDelete: NoAction, onUpdate: NoAction)
+  Profissao                            Profissao?             @relation(fields: [cd_profissao_pessoa], references: [cd_profissao], onDelete: NoAction, onUpdate: NoAction)
+  Tipo_Logradouro                      Tipo_Logradouro?       @relation(fields: [cd_tipo_logradouro_pessoa], references: [cd_tipo_logradouro], onDelete: NoAction, onUpdate: NoAction)
+  REFRESH_TOKEN_CLIENTE                REFRESH_TOKEN_CLIENTE?
+}
+
+model Profissao {
+  cd_profissao       Decimal                  @id
+  ds_profissao       String?
+  msrepl_synctran_ts Unsupported("timestamp")
+  Formulario_Pessoa  Formulario_Pessoa[]
+}
+
+model Tipo_Logradouro {
+  cd_tipo_logradouro String                   @id
+  ds_tipo_logradouro String
+  msrepl_synctran_ts Unsupported("timestamp")
+  Formulario_Pessoa  Formulario_Pessoa[]
+}
+
+model REFRESH_TOKEN {
+  id         String    @default(uuid())
+  expiresIn  Int
+  user_id    String    @unique
+  created_at DateTime? @default(now())
+  user       USERS_APP @relation(fields: [user_id], references: [id])
+}
+
+model REFRESH_TOKEN_CLIENTE {
+  id         String            @default(uuid())
+  expiresIn  Int
+  cliente_id String            @unique
+  created_at DateTime?         @default(now())
+  cliente    Formulario_Pessoa @relation(fields: [cliente_id], references: [cgc_pessoa])
+}
+
+model USERS_APP {
+  id            String         @id @default(uuid())
+  email         String
+  password      String
+  users         String         @unique
+  role          String
+  cpf           String         @unique
+  telefone      String
+  created_at    DateTime       @default(now())
+  update_at     DateTime?
+  REFRESH_TOKEN REFRESH_TOKEN?
+}
