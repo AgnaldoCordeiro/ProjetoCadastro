@@ -25,7 +25,7 @@ export const TelaDeHome: React.FC = () => {
           </a>
 
           <a
-          href="/dashboard"    
+          href="/colaborador"    
             className="text-emerald-500 font-semibold text-x1 flex items-center gap-1 "
           >
              

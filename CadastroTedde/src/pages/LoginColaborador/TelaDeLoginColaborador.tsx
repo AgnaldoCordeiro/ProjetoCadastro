@@ -43,9 +43,9 @@ import { useNavigate } from "react-router-dom"
       control,
     } = createUserForm;
   
-      async function onSubmit(data: CreateUserData) {
-        setIsLoading(true)   
-        login(data.user, data.password)        
+     async function onSubmitLogin(data: CreateUserData) {     
+        setIsLoading(true)          
+        login(data.user, data.password) 
         .then(() => {
           setIsLoading(false);
           navigate('/dashboard')
@@ -66,7 +66,7 @@ import { useNavigate } from "react-router-dom"
                 <span className="text-emerald-900 font-bold pt-5">Area de Acesso Colaborador</span>
               </div> 
               <FormProvider {...createUserForm}>
-              <form  onSubmit={ handleSubmit(onSubmit)}>             
+              <form  onSubmit={ handleSubmit(onSubmitLogin)}>             
               <Form.Field >
                   <Form.Label htmlFor="user">
                     Usuário

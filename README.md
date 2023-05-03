@@ -1,26 +1,27 @@
-# ProjetoCadastro
+#ProjetoCadastro
 
-## Inicializando API
+O projeto consiste em permitir que um colaborador cadastre o CPF/CNPJ do cliente no sistema, de forma que o cliente possa acessá-lo posteriormente e preencher seus dados. Esses dados são enviados com status "pendente" e o colaborador, após análise, pode atualizar o status para "Aprovado", "Reprovado" ou "Cancelado", caso haja desistência.
 
-1 - Abra o projeto da api em um terminal - cd/api_cadastro 
-2 - instale as dependencias - npm install
-3 - rode o projeto - npm run dev
-4 - voce pode consultar o banco de dados local em outro terminal aberto - npx prisma studio
+Caso seja aprovado, os dados são enviados para um sistema de terceiros que é cadastrado e utilizado pelo mesmo.
 
+###Iniciando a API
 
-## Inicializando aplicacao WEB
+Abra o projeto da API em um terminal: cd/api_cadastro
+Instale as dependências: npm install
+Rode o projeto: npm run dev
+Você pode consultar o banco de dados local em outro terminal aberto: npx prisma studio
 
-1 - Abra o projeto react em um terminal - cd/CadastroTedde 
-2 - instale as dependencias - npm install
-3 - rode o projeto - npm run dev
-4 - Abra o navegador e acesse http://127.0.0.1:5173/
+###Iniciando a aplicação web
 
-## Acesso
-1 - Para ficar mais facil, na home tem 2 links de acesso colaborador e cliente.
-2 - ao acessar o cliente ele solicita o cpf que ja esta no banco 99999999999 ao acessar ele ira refirecionar para a tela de cadastros /clientes/cadastro.
-3 - ao acessar o colaborador ele solicita usuario e senha. user:Admin senha:5323896 ao acessar ele ira redirecionar para tela de dashboard /dashboard.
+Abra o projeto React em um terminal: cd/CadastroTedde
+Instale as dependências: npm install
+Rode o projeto: npm run dev
+Abra o navegador e acesse http://127.0.0.1:5173/
 
-## PROBLEMAS!!!
-esta sem segurança, um cliente poderia mudar a url e acessar dashboard e um colaborador poderia acessar a tela de cadastro do cliente.
+###Acesso
 
-
+Para facilitar, na home tem 2 links de acesso: "colaborador" e "cliente".
+Ao acessar o cliente, será solicitado o CPF, que já está cadastrado no banco como "99999999999". Após o acesso, o cliente será redirecionado para a tela de cadastro: /clientes/cadastro.
+Ao acessar o colaborador, será solicitado o usuário e a senha. User: "Admin" e senha: "5323896". Após o acesso, o colaborador será redirecionado para a tela de dashboard: /dashboard.
+Problemas
+A aplicação atualmente não possui segurança adequada, o que permite que um cliente acesse o dashboard ao mudar a URL, ou que um colaborador acesse a tela de cadastro do cliente. Isso deve ser corrigido no futuro para garantir a segurança e a privacidade dos usuários.
