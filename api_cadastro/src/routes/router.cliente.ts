@@ -2,7 +2,9 @@ import express from 'express';
 import { PrismaClientesRepositories } from '../repositories/prisma/prisma-clientes-repository';
 import { CreateClienteUseCase } from '../use-cases/cliente/createCliente';
 import { ClienteUpdateData } from '../use-cases/cliente/updateCliente';
+import { FindClienteController } from '../controller/FindClienteController';
 
+const findClienteController = new FindClienteController()
 
 export const routesCliente = express.Router();
 //routes.use(ensureAuthenticated)
@@ -21,7 +23,6 @@ routesCliente.post('/clientes', async (req, res) => {
    return res.status(201).json('Cliente cadastrado com Sucesso')
  
 })
-
 
 routesCliente.put('/clientes', async (req, res) => {
   const { cgc_pessoa,
@@ -465,3 +466,6 @@ routesCliente.put('/clientes', async (req, res) => {
   
  
 })
+
+
+routesCliente.get('/clientes', findClienteController.handle)
