@@ -37,6 +37,7 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
   const [dadosUser, setDadosUser] = useState<IDadosUserProps>()
   const [tokenCliente, setTokenCliente] = useState<string>()
   const [dadosCliente, setDadosCliente] = useState<IDadosClienteProps>()
+ 
 
 
   useEffect(() => {
@@ -89,6 +90,8 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
   
   const handleLoginCliente = useCallback(async (cgc_pessoa: string) => {
     const result = await AuthServiceCliente.authClienteLogin(cgc_pessoa)
+   
+    
 
     if (result instanceof Error) {
       return result.message

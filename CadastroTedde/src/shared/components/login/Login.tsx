@@ -1,8 +1,8 @@
 import { Avatar, Box, Button, CircularProgress, Grid, Link, Paper, TextField, Typography } from "@mui/material"
 import { useState } from "react";
 import { useAuthContext } from "../../contexts";
-//import backgroundLogin from './Design.png'
 import * as yup from 'yup'
+import { useNavigate } from "react-router-dom";
 
 const loginSchema = yup.object().shape({
   user: yup.string().required(),
@@ -17,16 +17,17 @@ interface ILoginProps {
   children: React.ReactNode;
 }
 export const Login: React.FC<ILoginProps> = ({ children }) => {
-  const { isAuthenticated, login, isAuthenticatedCliente, loginCliente } = useAuthContext()
-
+   const { isAuthenticated, login, isAuthenticatedCliente, loginCliente } = useAuthContext() 
   const [isLoading, setIsLoading] = useState(false)
+  const [optionAcess, setOptionAcess] = useState(0)
+
 
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   const [cgc_pessoa, setCgc_pessoa] = useState('')
   const [userError, setUserError] = useState('')
   const [passwordError, setPasswordError] = useState('')
-  const [cgc_pessoaError, setCgc_pessoaError] = useState('')
+  const [cgc_pessoaError, setCgc_pessoaError] = useState('') 
 
   const handleSubmit = () => {
     setIsLoading(true)
@@ -125,6 +126,58 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
           <Typography component="h1" variant="h5">
             Acesso a nossa plataforma
           </Typography>
+          {
+          optionAcess === 0 ? 
+          <Box sx={{ mt: 1, maxWidth: '300px' }}>                  
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={() => setOptionAcess(1)}
+            endIcon={isLoading ? <CircularProgress variant='indeterminate' color='inherit' size={20} /> : undefined}
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Cliente
+          </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={() => setOptionAcess(2)}
+            endIcon={isLoading ? <CircularProgress variant='indeterminate' color='inherit' size={20} /> : undefined}
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Colaborador
+          </Button>
+
+          <Copyright sx={{ mt: 5 }} />
+        </Box>
+         : optionAcess === 1 ? <Box sx={{ mt: 1, maxWidth: '300px' }}>
+           <TextField
+             margin="normal"
+             fullWidth
+             autoFocus
+             label="Cpf/Cnpj"
+             type="cgc_pessoa"
+             value={cgc_pessoa}
+             disabled={isLoading}
+             error={!!cgc_pessoaError}
+             helperText={cgc_pessoaError}
+             onChange={e => setCgc_pessoa(e.target.value)}
+             onKeyDown={e => setCgc_pessoaError('')}
+           />           
+         
+           <Button
+             fullWidth
+             variant="contained"
+             onClick={handleSubmitCliente}
+             endIcon={isLoading ? <CircularProgress variant='indeterminate' color='inherit' size={20} /> : undefined}
+             sx={{ mt: 3, mb: 2 }}
+           >
+             Acessar
+           </Button>
+
+           <Copyright sx={{ mt: 5 }} />
+         </Box>
+          : 
           <Box sx={{ mt: 1, maxWidth: '300px' }}>
             <TextField
               margin="normal"
@@ -169,7 +222,8 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
             </Button>
 
             <Copyright sx={{ mt: 5 }} />
-          </Box>
+          </Box>          
+          }
         </Box>
 
       </Grid>

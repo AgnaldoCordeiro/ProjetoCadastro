@@ -23,5 +23,4 @@ Abra o navegador e acesse http://127.0.0.1:5173/
 Para facilitar, na home tem 2 links de acesso: "colaborador" e "cliente".
 Ao acessar o cliente, será solicitado o CPF, que já está cadastrado no banco como "99999999999". Após o acesso, o cliente será redirecionado para a tela de cadastro: /clientes/cadastro.
 Ao acessar o colaborador, será solicitado o usuário e a senha. User: "Admin" e senha: "5323896". Após o acesso, o colaborador será redirecionado para a tela de dashboard: /dashboard.
-Problemas
-A aplicação atualmente não possui segurança adequada, o que permite que um cliente acesse o dashboard ao mudar a URL, ou que um colaborador acesse a tela de cadastro do cliente. Isso deve ser corrigido no futuro para garantir a segurança e a privacidade dos usuários.
+

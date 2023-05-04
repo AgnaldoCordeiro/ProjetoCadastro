@@ -12,7 +12,7 @@ import {
 
 export function AppRoutes() {
   const { setDrawerOptions } = useDrawerContext()
-  const { dadosUser } = useAuthContext()
+  const { isAuthenticatedCliente, isAuthenticated} = useAuthContext()
 
   useEffect(() => {
     /* {
@@ -77,15 +77,26 @@ export function AppRoutes() {
   }, [])
   return (
     <Routes>
-      <Route path="/pagina-inicial" element={<h1>Dashboard</h1>} />
-      <Route path="/clientes/cadastro" element={<TelaDeCadastro />} />
+      
+      <Route path="/pagina-inicial" element={ 
+        isAuthenticatedCliente === true || isAuthenticated == false ?
+         <Navigate to={"/clientes/cadastro"} /> : isAuthenticatedCliente === false || isAuthenticated == true ?
+         <h1>Dashboard</h1> : 
+          isAuthenticatedCliente === true || isAuthenticated == true ? 
+           <h1>Dashboard</h1> : <Navigate to={"/"} />
+        } />
+      <Route path="/clientes/cadastro" element={ <TelaDeCadastro /> } />
       <Route path="/clientes/cadastro/:id" element={<h1>/clientes/cadastro/:id</h1>} />     
 
-      <Route path="/usuarios" element={<ListagemDeUsuarios />} />
-      <Route path="/usuarios/detalhe/:id" element={<DetalheDeUsuarios />} />
+      <Route path="/usuarios" element={
+         isAuthenticatedCliente === true ? <Navigate to={"/clientes/cadastro"} /> :
+      <ListagemDeUsuarios />} 
+      />
+      <Route path="/usuarios/detalhe/:id" element={
+       isAuthenticatedCliente === true ? <Navigate to={"/clientes/cadastro"} /> : <DetalheDeUsuarios />} />
     
-      
-      <Route path="*" element={<Navigate to={"/pagina-inicial"} />} />
+    <Route path="*" element={<Navigate to={"/pagina-inicial"} />} />
+     
     </Routes>
   );
 }
