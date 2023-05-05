@@ -281,10 +281,29 @@ const updateById = async (dados: IUpdateCliente): Promise<void | Error> => {
   }
 };
 
+const getById = async (cgc_pessoa: string): Promise<IUpdateCliente | Error> => {
+  try {
+  
+   const { data } = await Api.get(`/clientes/${cgc_pessoa}`)
+
+   if (data) {
+     return data;
+   }
+
+   return new Error("Erro ao consultar o cliente.")
+
+ } catch (error) {
+   console.error(error);
+   return new Error((error as { message: string }).message || "Erro ao consultar o cliente.")
+
+ }
+};
+
 
 
 export const ClienteService = {
   getAll,
+  getById,
   create,
   updateById,
 }

@@ -3,8 +3,10 @@ import { PrismaClientesRepositories } from '../repositories/prisma/prisma-client
 import { CreateClienteUseCase } from '../use-cases/cliente/createCliente';
 import { ClienteUpdateData } from '../use-cases/cliente/updateCliente';
 import { FindClienteController } from '../controller/FindClienteController';
+import { FindByIdClienteController } from '../controller/FindByIdClienteController';
 
 const findClienteController = new FindClienteController()
+const findByIdClienteController = new FindByIdClienteController()
 
 export const routesCliente = express.Router();
 //routes.use(ensureAuthenticated)
@@ -469,3 +471,4 @@ routesCliente.put('/clientes', async (req, res) => {
 
 
 routesCliente.get('/clientes', findClienteController.handle)
+routesCliente.get('/clientes/:cgc_pessoa', findByIdClienteController.handle)
