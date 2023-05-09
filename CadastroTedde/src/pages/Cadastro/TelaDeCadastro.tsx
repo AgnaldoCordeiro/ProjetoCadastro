@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Box, Grid, LinearProgress, Paper, Typography } from '@mui/material';
+import { Box, Button, Grid, LinearProgress, Paper, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ClienteService } from '../../shared/services/api/cliente/ClienteService';
 import { useAuthContext } from '../../shared/contexts';
@@ -751,14 +751,14 @@ export const TelaDeCadastro: React.FC = () => {
 
 
             <Grid item>
-              <Typography variant="h6">Geral</Typography>
+              <Typography variant="h6">Pessoa Física</Typography>
             </Grid>
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
                 <VTextField
                   fullWidth
-                  label="Usuário"
-                  name='user'
+                  label="Nome"
+                  name='nm_pessoa'
                   disabled={isLoading}                 
                 />
               </Grid>
@@ -766,8 +766,27 @@ export const TelaDeCadastro: React.FC = () => {
                 <VTextField
                   fullWidth
                   label="Email"
-                  name='email'
-                  type="email"
+                  name='e_mail_extrato'
+                  type='email'
+                  disabled={isLoading}                 
+                />
+              </Grid>
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Logradouro"
+                  name='cd_tipo_logradouro_pessoa'
+                  type="text"
+                  disabled={isLoading}
+
+                />
+              </Grid>
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Endereço"
+                  name='end_pessoa'
+                  type="text"
                   disabled={isLoading}
 
                 />
@@ -775,8 +794,24 @@ export const TelaDeCadastro: React.FC = () => {
               <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
                 <VTextField
                   fullWidth
-                  label="Role"
-                  name='role'
+                  label="N°"
+                  name='nu_endereco_pessoa'
+                  disabled={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Complemento"
+                  name='end_complemento_pessoa'
+                  disabled={isLoading}
+                />
+              </Grid>
+              <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Cidade"
+                  name='cd_cidade_pessoa'
                   disabled={isLoading}
                 />
               </Grid>
@@ -786,16 +821,157 @@ export const TelaDeCadastro: React.FC = () => {
               <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
                 <VTextField
                   fullWidth
-                  label="Senha"
-                  name='password'
-                  type='password'
+                  label="Cep"
+                  name='cep_pessoa'
+                  type='text'
+                  disabled={isLoading}
+                />
+              </Grid>              
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Whatsapp"
+                  name='nu_fone_zap'
+                  type='number'
+                  disabled={isLoading}
+                />
+              </Grid>              
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Celular"
+                  name='nu_celular_pessoa'
+                  type='text'
                   disabled={isLoading}
                 />
               </Grid>              
             </Grid>
 
+            <Grid container item direction="row" spacing={2}>
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="RG"
+                  name='rg_pessoa'
+                  type='text'
+                  disabled={isLoading}
+                />
+              </Grid>              
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Expedidor"
+                  name='cd_expedidor_pessoa'
+                  type='number'
+                  disabled={isLoading}
+                />
+              </Grid>              
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Naturalidade"
+                  name='ds_naturalidade_pessoa'
+                  type='text'
+                  disabled={isLoading}
+                />
+              </Grid>              
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Data de Nascimento"
+                  name='dt_nascimento_pessoa'
+                  type='date'
+                  disabled={isLoading}
+                />
+              </Grid>              
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Profissão"
+                  name='cd_profissao_pessoa'
+                  type='number'
+                  disabled={isLoading}
+                />
+              </Grid>              
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Escolaridade"
+                  name='cd_escolaridade'
+                  type='number'
+                  disabled={isLoading}
+                />
+              </Grid>              
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Salário"
+                  name='vlr_salario'
+                  type='number'
+                  disabled={isLoading}
+                />
+              </Grid>              
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="sexo"
+                  name='sexo'
+                  type='text'
+                  disabled={isLoading}
+                />
+              </Grid>              
+            </Grid>
+            <Grid container item direction="row" spacing={2}>
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="RG"
+                  name='rg_conjuge'
+                  type='text'
+                  disabled={isLoading}
+                />
+              </Grid>              
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Expedidor"
+                  name='cd_expedidor_conjuge'
+                  type='number'
+                  disabled={isLoading}
+                />
+              </Grid>              
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="CPF"
+                  name='cic_conjuge'
+                  type='text'
+                  disabled={isLoading}
+                />
+              </Grid>              
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Data de Nascimento"
+                  name='dt_nascimento_conjuge'
+                  type='date'
+                  disabled={isLoading}
+                />
+              </Grid>                  
+              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                <VTextField
+                  fullWidth
+                  label="Nome"
+                  name='nm_conjuge'
+                  type='Text'
+                  disabled={isLoading}
+                />
+              </Grid>                                                 
+            </Grid>
+
           </Grid>
         </Box>
+        <Button type='submit'>Enviar</Button>
       </VForm>
     </main>
 
