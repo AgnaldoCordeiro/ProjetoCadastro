@@ -688,11 +688,16 @@ export const TelaDeCadastro: React.FC = () => {
 
 
   const handleSave = (dados: IFormData) => {
+     /*  try {
+       const isValid = formValidationSchema.validate(formData, { abortEarly: false });
+       console.log('Formulário válido:', isValid);
+     } catch (error) {
+       console.log('Erro de validação:', error);
+     } */
 
     formValidationSchema.validate(dados, { abortEarly: false })
       .then((dadosValidados) => {
         setIsLoading(true)
-       
         ClienteService
         .updateById({ cgc_pessoa: id, ...dadosValidados })
         .then((result) => {
