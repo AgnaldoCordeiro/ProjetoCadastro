@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Box, Button, Grid, LinearProgress, Paper, Typography } from '@mui/material';
+import { Box, Button, Grid, LinearProgress, Paper, Typography, Stepper, Step, StepLabel } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ClienteService } from '../../shared/services/api/cliente/ClienteService';
 import { useAuthContext } from '../../shared/contexts';
@@ -224,222 +224,226 @@ interface IFormData {
 }
 
 const formValidationSchema: yup.Schema<IFormData> = yup.object().shape({
-    nm_pessoa: yup.string(),
-    nm_fantasia_pessoa: yup.string(),
-    rg_pessoa: yup.string(),
-    cd_expedidor_pessoa: yup.string(),
-    ds_naturalidade_pessoa: yup.string(),
-    dt_nascimento_pessoa: yup.date(),
-    ie_pessoa: yup.string(),
-    cd_estado_civil_pessoa: yup.string(),
-    im_pessoa: yup.string(),
-    cd_profissao_pessoa: yup.number(),
-    end_pessoa: yup.string(),
-    cd_bairro_pessoa: yup.number(),
-    nu_endereco_pessoa: yup.string(),
-    cep_pessoa: yup.string(),
-    end_complemento_pessoa: yup.string(),
-    cd_cidade_pessoa: yup.string(),
-    cd_tipo_logradouro_pessoa: yup.string(),
-    nu_fone_pessoa: yup.string(),
-    nm_conjuge: yup.string(),
-    cd_profissao_conjuge: yup.string(),
-    cd_expedidor_conjuge: yup.string(),
-    nu_celular_pessoa: yup.string(),
-    cic_conjuge: yup.string(),
-    rg_conjuge: yup.string(),
-    dt_nascimento_conjuge: yup.date(),
-    nu_caixa_postal_pessoa: yup.string(),
-    tipo_pessoa: yup.string(),
-    e_mail_pessoa: yup.string(),
-    nm_contato: yup.string(),
-    dt_nascimento_contato: yup.date(),
-    end_cobranca: yup.string(),
-    nu_endereco_cobranca: yup.string(),
-    end_complemento_cobranca: yup.string(),
-    cd_bairro_cobranca: yup.string(),
-    ds_bairro_cobranca: yup.string(),
-    cd_tipo_logradouro_cobranca: yup.string(),
-    cd_cidade_cobranca: yup.string(),
-    ds_cidade_cobranca: yup.string(),
-    uf_cobranca: yup.string(),
-    cep_cobranca: yup.string(),
-    nu_caixa_postal_cobranca: yup.string(),
-    obs_pessoa: yup.string(),
-    cd_escolaridade: yup.number(),
-    sexo: yup.string(),
-    vlr_salario: yup.number(),
-    e_mail_extrato: yup.string(),
-    nu_fone_zap: yup.number(),
-    matricula_afiancado_imovel: yup.string(),
-    end_imovel_afiancado: yup.string(),
-    cd_cidade_afiancado: yup.number(),
-    nm_contato_fiador: yup.string(),
-    nu_fone_contato_fiador: yup.string(),
-    nu_fone_comercial_fiador: yup.string(),
-    cd_bairro_fiador: yup.number(),
-    cd_bairro_trabalho: yup.number(),
-    cd_bairro_trabalho_conjugue: yup.number(),
-    cd_bairro_trabalho_conjugue_fiador: yup.number(),
-    cd_bairro_trabalho_fiador: yup.number(),
-    cd_cidade_fiador: yup.string(),
-    ds_info_imovel_fiador: yup.string(),
-    cd_cidade_trabalho: yup.string(),
-    cd_cidade_trabalho_conjugue: yup.string(),
-    cd_cidade_trabalho_conjugue_fiador: yup.string(),
-    cd_cidade_trabalho_fiador: yup.string(),
-    cd_escolaridade_fiador: yup.number(),
-    cd_estado_civil_fiador: yup.string(),
-    cd_expedidor_conjuge_fiador: yup.string(),
-    cd_expedidor_fiador: yup.string(),
-    cd_profissao_conjuge_fiador: yup.string(),
-    cd_profissao_fiador: yup.number(),
-    cd_tipo_logradouro_fiador: yup.string(),
-    cep_fiador: yup.string(),
-    cep_trabalho: yup.string(),
-    cep_trabalho_conjugue: yup.string(),
-    cep_trabalho_conjugue_fiador: yup.string(),
-    cep_trabalho_fiador: yup.string(),
-    cic_conjuge_fiador: yup.string(),
-    cis_fiador: yup.string(),
-    ds_admissao: yup.date(),
-    ds_admissao_conjugue: yup.date(),
-    ds_admissao_conjugue_fiador: yup.date(),
-    ds_admissao_fiador: yup.date(),
-    ds_filicao_mae_conjuge: yup.string(),
-    ds_filicao_mae_conjuge_fiador: yup.string(),
-    ds_filicao_mae_fiador: yup.string(),
-    ds_filicao_mae_pessoa: yup.string(),
-    ds_filicao_pai_conjuge: yup.string(),
-    ds_filicao_pai_conjuge_fiador: yup.string(),
-    ds_filicao_pai_fiador: yup.string(),
-    ds_filicao_pai_pessoa: yup.string(),
-    ds_local_trabalho: yup.string(),
-    ds_local_trabalho_conjugue: yup.string(),
-    ds_local_trabalho_conjugue_fiador: yup.string(),
-    ds_local_trabalho_fiador: yup.string(),
-    ds_naturalidade_conjuge: yup.string(),
-    ds_naturalidade_conjuge_fiador: yup.string(),
-    ds_naturalidade_fiador: yup.string(),
-    ds_pessoas_qi_morar: yup.string(),
-    dt_cadastro_fiador: yup.date(),
-    dt_nascimento_conjuge_fiador: yup.date(),
-    dt_nascimento_fiador: yup.date(),
-    e_mail_conjugue: yup.string(),
-    e_mail_conjugue_fiador: yup.string(),
-    e_mail_fiador: yup.string(),
-    end_complemento_fiador: yup.string(),
-    end_contato: yup.string(),
-    end_contato_pr_fiador: yup.string(),
-    end_contato_sg: yup.string(),
-    end_contato_sg_fiador: yup.string(),
-    end_fiador: yup.string(),
-    end_trabalho: yup.string(),
-    end_trabalho_conjugue: yup.string(),
-    end_trabalho_conjugue_fiador: yup.string(),
-    end_trabalho_fiador: yup.string(),
-    ie_fiador: yup.string(),
-    im_fiador: yup.string(),
-    nm_adultos: yup.number(),
-    nm_conjuge_fiador: yup.string(),
-    nm_contato_pr_fiador: yup.string(),
-    nm_contato_sg: yup.string(),
-    nm_contato_sg_fiador: yup.string(),
-    nm_criancas: yup.number(),
-    nm_fantasia_fiador: yup.string(),
-    nm_fiador: yup.string(),
-    nm_pessoas: yup.number(),
-    nu_celular_conjuge: yup.string(),
-    nu_celular_conjuge_fiador: yup.string(),
-    nu_celular_fiador: yup.string(),
-    nu_endereco_fiador: yup.string(),
-    nu_endereco_trabalho: yup.string(),
-    nu_endereco_trabalho_conjugue: yup.string(),
-    nu_endereco_trabalho_conjugue_fiador: yup.string(),
-    nu_endereco_trabalho_fiador: yup.string(),
-    nu_fone_contato: yup.string(),
-    nu_fone_contato_pr_fiador: yup.string(),
-    nu_fone_contato_sg: yup.string(),
-    nu_fone_contato_sg_fiador: yup.string(),
-    nu_fone_fiador: yup.string(),
-    nu_fone_trabalho: yup.string(),
-    nu_fone_trabalho_conjugue: yup.string(),
-    nu_fone_trabalho_conjugue_fiador: yup.string(),
-    nu_fone_trabalho_fiador: yup.string(),
-    nu_fone_zap_fiador: yup.number(),
-    num_animais: yup.number(),
-    obs_fiador: yup.string(),
-    rg_conjuge_fiador: yup.string(),
-    rg_fiador: yup.string(),
-    tipo_fiador: yup.string(),
-    vlr_salario_conjuge: yup.number(),
-    vlr_salario_conjuge_fiador: yup.number(),
-    vlr_salario_fiador: yup.number(),
-    ds_info_imovel_fiador_one: yup.string(),
-    cis_fiador_one: yup.string(),
-    nm_fiador_one: yup.string(),
-    ds_filicao_pai_fiador_one: yup.string(),
-    ds_filicao_mae_fiador_one: yup.string(),
-    nm_fantasia_fiador_one: yup.string(),
-    rg_fiador_one: yup.string(),
-    cd_expedidor_fiador_one: yup.string(),
-    ds_naturalidade_fiador_one: yup.string(),
-    dt_nascimento_fiador_one: yup.date(),
-    ie_fiador_one: yup.string(),
-    cd_estado_civil_fiador_one: yup.string(),
-    im_fiador_one: yup.string(),
-    cd_profissao_fiador_one: yup.number(),
-    end_fiador_one: yup.string(),
-    cd_bairro_fiador_one: yup.number(),
-    nu_endereco_fiador_one: yup.string(),
-    cep_fiador_one: yup.string(),
-    end_complemento_fiador_one: yup.string(),
-    cd_cidade_fiador_one: yup.string(),
-    cd_tipo_logradouro_fiador_one: yup.string(),
-    nu_fone_fiador_one: yup.string(),
-    nu_celular_fiador_one: yup.string(),
-    tipo_fiador_one: yup.string(),
-    e_mail_fiador_one: yup.string(),
-    obs_fiador_one: yup.string(),
-    cd_escolaridade_fiador_one: yup.number(),
-    vlr_salario_fiador_one: yup.number(),
-    nu_fone_zap_fiador_one: yup.number(),
-    ds_info_imovel_fiador_two: yup.string(),
-    cis_fiador_two: yup.string(),
-    nm_fiador_two: yup.string(),
-    ds_filicao_pai_fiador_two: yup.string(),
-    ds_filicao_mae_fiador_two: yup.string(),
-    nm_fantasia_fiador_two: yup.string(),
-    rg_fiador_two: yup.string(),
-    cd_expedidor_fiador_two: yup.string(),
-    ds_naturalidade_fiador_two: yup.string(),
-    dt_nascimento_fiador_two: yup.date(),
-    ie_fiador_two: yup.string(),
-    cd_estado_civil_fiador_two: yup.string(),
-    im_fiador_two: yup.string(),
-    cd_profissao_fiador_two: yup.number(),
-    end_fiador_two: yup.string(),
-    cd_bairro_fiador_two: yup.number(),
-    nu_endereco_fiador_two: yup.string(),
-    cep_fiador_two: yup.string(),
-    end_complemento_fiador_two: yup.string(),
-    cd_cidade_fiador_two: yup.string(),
-    cd_tipo_logradouro_fiador_two: yup.string(),
-    nu_fone_fiador_two: yup.string(),
-    nu_celular_fiador_two: yup.string(),
-    tipo_fiador_two: yup.string(),
-    e_mail_fiador_two: yup.string(),
-    obs_fiador_two: yup.string(),
-    cd_escolaridade_fiador_two: yup.number(),
-    vlr_salario_fiador_two: yup.number(),
-    nu_fone_zap_fiador_two: yup.number(),
-    banco: yup.string(),
-    nu_fone_banco: yup.string(),
-    conta: yup.string(),
-    fornecedor: yup.string(),
-    nu_fone_fornecedor: yup.string()
- 
+  nm_pessoa: yup.string(),
+  nm_fantasia_pessoa: yup.string(),
+  rg_pessoa: yup.string(),
+  cd_expedidor_pessoa: yup.string(),
+  ds_naturalidade_pessoa: yup.string(),
+  dt_nascimento_pessoa: yup.date(),
+  ie_pessoa: yup.string(),
+  cd_estado_civil_pessoa: yup.string(),
+  im_pessoa: yup.string(),
+  cd_profissao_pessoa: yup.number(),
+  end_pessoa: yup.string(),
+  cd_bairro_pessoa: yup.number(),
+  nu_endereco_pessoa: yup.string(),
+  cep_pessoa: yup.string(),
+  end_complemento_pessoa: yup.string(),
+  cd_cidade_pessoa: yup.string(),
+  cd_tipo_logradouro_pessoa: yup.string(),
+  nu_fone_pessoa: yup.string(),
+  nm_conjuge: yup.string(),
+  cd_profissao_conjuge: yup.string(),
+  cd_expedidor_conjuge: yup.string(),
+  nu_celular_pessoa: yup.string(),
+  cic_conjuge: yup.string(),
+  rg_conjuge: yup.string(),
+  dt_nascimento_conjuge: yup.date(),
+  nu_caixa_postal_pessoa: yup.string(),
+  tipo_pessoa: yup.string(),
+  e_mail_pessoa: yup.string(),
+  nm_contato: yup.string(),
+  dt_nascimento_contato: yup.date(),
+  end_cobranca: yup.string(),
+  nu_endereco_cobranca: yup.string(),
+  end_complemento_cobranca: yup.string(),
+  cd_bairro_cobranca: yup.string(),
+  ds_bairro_cobranca: yup.string(),
+  cd_tipo_logradouro_cobranca: yup.string(),
+  cd_cidade_cobranca: yup.string(),
+  ds_cidade_cobranca: yup.string(),
+  uf_cobranca: yup.string(),
+  cep_cobranca: yup.string(),
+  nu_caixa_postal_cobranca: yup.string(),
+  obs_pessoa: yup.string(),
+  cd_escolaridade: yup.number(),
+  sexo: yup.string(),
+  vlr_salario: yup.number(),
+  e_mail_extrato: yup.string(),
+  nu_fone_zap: yup.number(),
+  matricula_afiancado_imovel: yup.string(),
+  end_imovel_afiancado: yup.string(),
+  cd_cidade_afiancado: yup.number(),
+  nm_contato_fiador: yup.string(),
+  nu_fone_contato_fiador: yup.string(),
+  nu_fone_comercial_fiador: yup.string(),
+  cd_bairro_fiador: yup.number(),
+  cd_bairro_trabalho: yup.number(),
+  cd_bairro_trabalho_conjugue: yup.number(),
+  cd_bairro_trabalho_conjugue_fiador: yup.number(),
+  cd_bairro_trabalho_fiador: yup.number(),
+  cd_cidade_fiador: yup.string(),
+  ds_info_imovel_fiador: yup.string(),
+  cd_cidade_trabalho: yup.string(),
+  cd_cidade_trabalho_conjugue: yup.string(),
+  cd_cidade_trabalho_conjugue_fiador: yup.string(),
+  cd_cidade_trabalho_fiador: yup.string(),
+  cd_escolaridade_fiador: yup.number(),
+  cd_estado_civil_fiador: yup.string(),
+  cd_expedidor_conjuge_fiador: yup.string(),
+  cd_expedidor_fiador: yup.string(),
+  cd_profissao_conjuge_fiador: yup.string(),
+  cd_profissao_fiador: yup.number(),
+  cd_tipo_logradouro_fiador: yup.string(),
+  cep_fiador: yup.string(),
+  cep_trabalho: yup.string(),
+  cep_trabalho_conjugue: yup.string(),
+  cep_trabalho_conjugue_fiador: yup.string(),
+  cep_trabalho_fiador: yup.string(),
+  cic_conjuge_fiador: yup.string(),
+  cis_fiador: yup.string(),
+  ds_admissao: yup.date(),
+  ds_admissao_conjugue: yup.date(),
+  ds_admissao_conjugue_fiador: yup.date(),
+  ds_admissao_fiador: yup.date(),
+  ds_filicao_mae_conjuge: yup.string(),
+  ds_filicao_mae_conjuge_fiador: yup.string(),
+  ds_filicao_mae_fiador: yup.string(),
+  ds_filicao_mae_pessoa: yup.string(),
+  ds_filicao_pai_conjuge: yup.string(),
+  ds_filicao_pai_conjuge_fiador: yup.string(),
+  ds_filicao_pai_fiador: yup.string(),
+  ds_filicao_pai_pessoa: yup.string(),
+  ds_local_trabalho: yup.string(),
+  ds_local_trabalho_conjugue: yup.string(),
+  ds_local_trabalho_conjugue_fiador: yup.string(),
+  ds_local_trabalho_fiador: yup.string(),
+  ds_naturalidade_conjuge: yup.string(),
+  ds_naturalidade_conjuge_fiador: yup.string(),
+  ds_naturalidade_fiador: yup.string(),
+  ds_pessoas_qi_morar: yup.string(),
+  dt_cadastro_fiador: yup.date(),
+  dt_nascimento_conjuge_fiador: yup.date(),
+  dt_nascimento_fiador: yup.date(),
+  e_mail_conjugue: yup.string(),
+  e_mail_conjugue_fiador: yup.string(),
+  e_mail_fiador: yup.string(),
+  end_complemento_fiador: yup.string(),
+  end_contato: yup.string(),
+  end_contato_pr_fiador: yup.string(),
+  end_contato_sg: yup.string(),
+  end_contato_sg_fiador: yup.string(),
+  end_fiador: yup.string(),
+  end_trabalho: yup.string(),
+  end_trabalho_conjugue: yup.string(),
+  end_trabalho_conjugue_fiador: yup.string(),
+  end_trabalho_fiador: yup.string(),
+  ie_fiador: yup.string(),
+  im_fiador: yup.string(),
+  nm_adultos: yup.number(),
+  nm_conjuge_fiador: yup.string(),
+  nm_contato_pr_fiador: yup.string(),
+  nm_contato_sg: yup.string(),
+  nm_contato_sg_fiador: yup.string(),
+  nm_criancas: yup.number(),
+  nm_fantasia_fiador: yup.string(),
+  nm_fiador: yup.string(),
+  nm_pessoas: yup.number(),
+  nu_celular_conjuge: yup.string(),
+  nu_celular_conjuge_fiador: yup.string(),
+  nu_celular_fiador: yup.string(),
+  nu_endereco_fiador: yup.string(),
+  nu_endereco_trabalho: yup.string(),
+  nu_endereco_trabalho_conjugue: yup.string(),
+  nu_endereco_trabalho_conjugue_fiador: yup.string(),
+  nu_endereco_trabalho_fiador: yup.string(),
+  nu_fone_contato: yup.string(),
+  nu_fone_contato_pr_fiador: yup.string(),
+  nu_fone_contato_sg: yup.string(),
+  nu_fone_contato_sg_fiador: yup.string(),
+  nu_fone_fiador: yup.string(),
+  nu_fone_trabalho: yup.string(),
+  nu_fone_trabalho_conjugue: yup.string(),
+  nu_fone_trabalho_conjugue_fiador: yup.string(),
+  nu_fone_trabalho_fiador: yup.string(),
+  nu_fone_zap_fiador: yup.number(),
+  num_animais: yup.number(),
+  obs_fiador: yup.string(),
+  rg_conjuge_fiador: yup.string(),
+  rg_fiador: yup.string(),
+  tipo_fiador: yup.string(),
+  vlr_salario_conjuge: yup.number(),
+  vlr_salario_conjuge_fiador: yup.number(),
+  vlr_salario_fiador: yup.number(),
+  ds_info_imovel_fiador_one: yup.string(),
+  cis_fiador_one: yup.string(),
+  nm_fiador_one: yup.string(),
+  ds_filicao_pai_fiador_one: yup.string(),
+  ds_filicao_mae_fiador_one: yup.string(),
+  nm_fantasia_fiador_one: yup.string(),
+  rg_fiador_one: yup.string(),
+  cd_expedidor_fiador_one: yup.string(),
+  ds_naturalidade_fiador_one: yup.string(),
+  dt_nascimento_fiador_one: yup.date(),
+  ie_fiador_one: yup.string(),
+  cd_estado_civil_fiador_one: yup.string(),
+  im_fiador_one: yup.string(),
+  cd_profissao_fiador_one: yup.number(),
+  end_fiador_one: yup.string(),
+  cd_bairro_fiador_one: yup.number(),
+  nu_endereco_fiador_one: yup.string(),
+  cep_fiador_one: yup.string(),
+  end_complemento_fiador_one: yup.string(),
+  cd_cidade_fiador_one: yup.string(),
+  cd_tipo_logradouro_fiador_one: yup.string(),
+  nu_fone_fiador_one: yup.string(),
+  nu_celular_fiador_one: yup.string(),
+  tipo_fiador_one: yup.string(),
+  e_mail_fiador_one: yup.string(),
+  obs_fiador_one: yup.string(),
+  cd_escolaridade_fiador_one: yup.number(),
+  vlr_salario_fiador_one: yup.number(),
+  nu_fone_zap_fiador_one: yup.number(),
+  ds_info_imovel_fiador_two: yup.string(),
+  cis_fiador_two: yup.string(),
+  nm_fiador_two: yup.string(),
+  ds_filicao_pai_fiador_two: yup.string(),
+  ds_filicao_mae_fiador_two: yup.string(),
+  nm_fantasia_fiador_two: yup.string(),
+  rg_fiador_two: yup.string(),
+  cd_expedidor_fiador_two: yup.string(),
+  ds_naturalidade_fiador_two: yup.string(),
+  dt_nascimento_fiador_two: yup.date(),
+  ie_fiador_two: yup.string(),
+  cd_estado_civil_fiador_two: yup.string(),
+  im_fiador_two: yup.string(),
+  cd_profissao_fiador_two: yup.number(),
+  end_fiador_two: yup.string(),
+  cd_bairro_fiador_two: yup.number(),
+  nu_endereco_fiador_two: yup.string(),
+  cep_fiador_two: yup.string(),
+  end_complemento_fiador_two: yup.string(),
+  cd_cidade_fiador_two: yup.string(),
+  cd_tipo_logradouro_fiador_two: yup.string(),
+  nu_fone_fiador_two: yup.string(),
+  nu_celular_fiador_two: yup.string(),
+  tipo_fiador_two: yup.string(),
+  e_mail_fiador_two: yup.string(),
+  obs_fiador_two: yup.string(),
+  cd_escolaridade_fiador_two: yup.number(),
+  vlr_salario_fiador_two: yup.number(),
+  nu_fone_zap_fiador_two: yup.number(),
+  banco: yup.string(),
+  nu_fone_banco: yup.string(),
+  conta: yup.string(),
+  fornecedor: yup.string(),
+  nu_fone_fornecedor: yup.string()
+
 })
+
+
+const steps = ['Passo 1', 'Passo 2', 'Passo 3'];
+
 
 export const TelaDeCadastro: React.FC = () => {
   const navigate = useNavigate()
@@ -447,6 +451,15 @@ export const TelaDeCadastro: React.FC = () => {
   const { id = 'novo' } = useParams<'id'>();
   const { formRef, save, saveAndClose, isSaveAndClose } = useVForm()
   const [isLoading, setIsLoading] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
 
   useEffect(() => {
     if (id !== 'novo') {
@@ -459,227 +472,227 @@ export const TelaDeCadastro: React.FC = () => {
           if (result instanceof Error) {
             alert(result.message);
             navigate('/');
-          } else {           
+          } else {
             formRef.current?.setData(result)
             console.log(result)
           }
         })
     } else {
       formRef.current?.setData({
-    nm_pessoa: '',
-    nm_fantasia_pessoa: '',
-    rg_pessoa: '',
-    cd_expedidor_pessoa: '',
-    ds_naturalidade_pessoa: '',
-    dt_nascimento_pessoa: '',
-    ie_pessoa: '',
-    cd_estado_civil_pessoa: '',
-    im_pessoa: '',
-    cd_profissao_pessoa: '',
-    end_pessoa: '',
-    cd_bairro_pessoa: '',
-    nu_endereco_pessoa: '',
-    cep_pessoa: '',
-    end_complemento_pessoa: '',
-    cd_cidade_pessoa: '',
-    cd_tipo_logradouro_pessoa: '',
-    nu_fone_pessoa: '',
-    nm_conjuge: '',
-    cd_profissao_conjuge: '',
-    cd_expedidor_conjuge: '',
-    nu_celular_pessoa: '',
-    cic_conjuge: '',
-    rg_conjuge: '',
-    dt_nascimento_conjuge: '',
-    nu_caixa_postal_pessoa: '',
-    tipo_pessoa: '',
-    e_mail_pessoa: '',
-    nm_contato: '',
-    dt_nascimento_contato: '',
-    end_cobranca: '',
-    nu_endereco_cobranca: '',
-    end_complemento_cobranca: '',
-    cd_bairro_cobranca: '',
-    ds_bairro_cobranca: '',
-    cd_tipo_logradouro_cobranca: '',
-    cd_cidade_cobranca: '',
-    ds_cidade_cobranca: '',
-    uf_cobranca: '',
-    cep_cobranca: '',
-    nu_caixa_postal_cobranca: '',
-    obs_pessoa: '',
-    cd_escolaridade: '',
-    sexo: '',
-    vlr_salario: '',
-    e_mail_extrato: '',
-    nu_fone_zap: '',
-    matricula_afiancado_imovel: '',
-    end_imovel_afiancado: '',
-    cd_cidade_afiancado: '',
-    nm_contato_fiador: '',
-    nu_fone_contato_fiador: '',
-    nu_fone_comercial_fiador: '',
-    cd_bairro_fiador: '',
-    cd_bairro_trabalho: '',
-    cd_bairro_trabalho_conjugue: '',
-    cd_bairro_trabalho_conjugue_fiador: '',
-    cd_bairro_trabalho_fiador: '',
-    cd_cidade_fiador: '',
-    ds_info_imovel_fiador: '',
-    cd_cidade_trabalho: '',
-    cd_cidade_trabalho_conjugue: '',
-    cd_cidade_trabalho_conjugue_fiador: '',
-    cd_cidade_trabalho_fiador: '',
-    cd_escolaridade_fiador: '',
-    cd_estado_civil_fiador: '',
-    cd_expedidor_conjuge_fiador: '',
-    cd_expedidor_fiador: '',
-    cd_profissao_conjuge_fiador: '',
-    cd_profissao_fiador: '',
-    cd_tipo_logradouro_fiador: '',
-    cep_fiador: '',
-    cep_trabalho: '',
-    cep_trabalho_conjugue: '',
-    cep_trabalho_conjugue_fiador: '',
-    cep_trabalho_fiador: '',
-    cic_conjuge_fiador: '',
-    cis_fiador: '',
-    ds_admissao: '',
-    ds_admissao_conjugue: '',
-    ds_admissao_conjugue_fiador: '',
-    ds_admissao_fiador: '',
-    ds_filicao_mae_conjuge: '',
-    ds_filicao_mae_conjuge_fiador: '',
-    ds_filicao_mae_fiador: '',
-    ds_filicao_mae_pessoa: '',
-    ds_filicao_pai_conjuge: '',
-    ds_filicao_pai_conjuge_fiador: '',
-    ds_filicao_pai_fiador: '',
-    ds_filicao_pai_pessoa: '',
-    ds_local_trabalho: '',
-    ds_local_trabalho_conjugue: '',
-    ds_local_trabalho_conjugue_fiador: '',
-    ds_local_trabalho_fiador: '',
-    ds_naturalidade_conjuge: '',
-    ds_naturalidade_conjuge_fiador: '',
-    ds_naturalidade_fiador: '',
-    ds_pessoas_qi_morar: '',
-    dt_cadastro_fiador: '',
-    dt_nascimento_conjuge_fiador: '',
-    dt_nascimento_fiador: '',
-    e_mail_conjugue: '',
-    e_mail_conjugue_fiador: '',
-    e_mail_fiador: '',
-    end_complemento_fiador: '',
-    end_contato: '',
-    end_contato_pr_fiador: '',
-    end_contato_sg: '',
-    end_contato_sg_fiador: '',
-    end_fiador: '',
-    end_trabalho: '',
-    end_trabalho_conjugue: '',
-    end_trabalho_conjugue_fiador: '',
-    end_trabalho_fiador: '',
-    ie_fiador: '',
-    im_fiador: '',
-    nm_adultos: '',
-    nm_conjuge_fiador: '',
-    nm_contato_pr_fiador: '',
-    nm_contato_sg: '',
-    nm_contato_sg_fiador: '',
-    nm_criancas: '',
-    nm_fantasia_fiador: '',
-    nm_fiador: '',
-    nm_pessoas: '',
-    nu_celular_conjuge: '',
-    nu_celular_conjuge_fiador: '',
-    nu_celular_fiador: '',
-    nu_endereco_fiador: '',
-    nu_endereco_trabalho: '',
-    nu_endereco_trabalho_conjugue: '',
-    nu_endereco_trabalho_conjugue_fiador: '',
-    nu_endereco_trabalho_fiador: '',
-    nu_fone_contato: '',
-    nu_fone_contato_pr_fiador: '',
-    nu_fone_contato_sg: '',
-    nu_fone_contato_sg_fiador: '',
-    nu_fone_fiador: '',
-    nu_fone_trabalho: '',
-    nu_fone_trabalho_conjugue: '',
-    nu_fone_trabalho_conjugue_fiador: '',
-    nu_fone_trabalho_fiador: '',
-    nu_fone_zap_fiador: '',
-    num_animais: '',
-    obs_fiador: '',
-    rg_conjuge_fiador: '',
-    rg_fiador: '',
-    tipo_fiador: '',
-    vlr_salario_conjuge: '',
-    vlr_salario_conjuge_fiador: '',
-    vlr_salario_fiador: '',
-    ds_info_imovel_fiador_one: '',
-    cis_fiador_one: '',
-    nm_fiador_one: '',
-    ds_filicao_pai_fiador_one: '',
-    ds_filicao_mae_fiador_one: '',
-    nm_fantasia_fiador_one: '',
-    rg_fiador_one: '',
-    cd_expedidor_fiador_one: '',
-    ds_naturalidade_fiador_one: '',
-    dt_nascimento_fiador_one: '',
-    ie_fiador_one: '',
-    cd_estado_civil_fiador_one: '',
-    im_fiador_one: '',
-    cd_profissao_fiador_one: '',
-    end_fiador_one: '',
-    cd_bairro_fiador_one: '',
-    nu_endereco_fiador_one: '',
-    cep_fiador_one: '',
-    end_complemento_fiador_one: '',
-    cd_cidade_fiador_one: '',
-    cd_tipo_logradouro_fiador_one: '',
-    nu_fone_fiador_one: '',
-    nu_celular_fiador_one: '',
-    tipo_fiador_one: '',
-    e_mail_fiador_one: '',
-    obs_fiador_one: '',
-    cd_escolaridade_fiador_one: '',
-    vlr_salario_fiador_one: '',
-    nu_fone_zap_fiador_one: '',
-    ds_info_imovel_fiador_two: '',
-    cis_fiador_two: '',
-    nm_fiador_two: '',
-    ds_filicao_pai_fiador_two: '',
-    ds_filicao_mae_fiador_two: '',
-    nm_fantasia_fiador_two: '',
-    rg_fiador_two: '',
-    cd_expedidor_fiador_two: '',
-    ds_naturalidade_fiador_two: '',
-    dt_nascimento_fiador_two: '',
-    ie_fiador_two: '',
-    cd_estado_civil_fiador_two: '',
-    im_fiador_two: '',
-    cd_profissao_fiador_two: '',
-    end_fiador_two: '',
-    cd_bairro_fiador_two: '',
-    nu_endereco_fiador_two: '',
-    cep_fiador_two: '',
-    end_complemento_fiador_two: '',
-    cd_cidade_fiador_two: '',
-    cd_tipo_logradouro_fiador_two: '',
-    nu_fone_fiador_two: '',
-    nu_celular_fiador_two: '',
-    tipo_fiador_two: '',
-    e_mail_fiador_two: '',
-    obs_fiador_two: '',
-    cd_escolaridade_fiador_two: '',
-    vlr_salario_fiador_two: '',
-    nu_fone_zap_fiador_two: '',
-    banco: '',
-    nu_fone_banco: '',
-    conta: '',
-    fornecedor: '',
-    nu_fone_fornecedor: ''
+        nm_pessoa: '',
+        nm_fantasia_pessoa: '',
+        rg_pessoa: '',
+        cd_expedidor_pessoa: '',
+        ds_naturalidade_pessoa: '',
+        dt_nascimento_pessoa: '',
+        ie_pessoa: '',
+        cd_estado_civil_pessoa: '',
+        im_pessoa: '',
+        cd_profissao_pessoa: '',
+        end_pessoa: '',
+        cd_bairro_pessoa: '',
+        nu_endereco_pessoa: '',
+        cep_pessoa: '',
+        end_complemento_pessoa: '',
+        cd_cidade_pessoa: '',
+        cd_tipo_logradouro_pessoa: '',
+        nu_fone_pessoa: '',
+        nm_conjuge: '',
+        cd_profissao_conjuge: '',
+        cd_expedidor_conjuge: '',
+        nu_celular_pessoa: '',
+        cic_conjuge: '',
+        rg_conjuge: '',
+        dt_nascimento_conjuge: '',
+        nu_caixa_postal_pessoa: '',
+        tipo_pessoa: '',
+        e_mail_pessoa: '',
+        nm_contato: '',
+        dt_nascimento_contato: '',
+        end_cobranca: '',
+        nu_endereco_cobranca: '',
+        end_complemento_cobranca: '',
+        cd_bairro_cobranca: '',
+        ds_bairro_cobranca: '',
+        cd_tipo_logradouro_cobranca: '',
+        cd_cidade_cobranca: '',
+        ds_cidade_cobranca: '',
+        uf_cobranca: '',
+        cep_cobranca: '',
+        nu_caixa_postal_cobranca: '',
+        obs_pessoa: '',
+        cd_escolaridade: '',
+        sexo: '',
+        vlr_salario: '',
+        e_mail_extrato: '',
+        nu_fone_zap: '',
+        matricula_afiancado_imovel: '',
+        end_imovel_afiancado: '',
+        cd_cidade_afiancado: '',
+        nm_contato_fiador: '',
+        nu_fone_contato_fiador: '',
+        nu_fone_comercial_fiador: '',
+        cd_bairro_fiador: '',
+        cd_bairro_trabalho: '',
+        cd_bairro_trabalho_conjugue: '',
+        cd_bairro_trabalho_conjugue_fiador: '',
+        cd_bairro_trabalho_fiador: '',
+        cd_cidade_fiador: '',
+        ds_info_imovel_fiador: '',
+        cd_cidade_trabalho: '',
+        cd_cidade_trabalho_conjugue: '',
+        cd_cidade_trabalho_conjugue_fiador: '',
+        cd_cidade_trabalho_fiador: '',
+        cd_escolaridade_fiador: '',
+        cd_estado_civil_fiador: '',
+        cd_expedidor_conjuge_fiador: '',
+        cd_expedidor_fiador: '',
+        cd_profissao_conjuge_fiador: '',
+        cd_profissao_fiador: '',
+        cd_tipo_logradouro_fiador: '',
+        cep_fiador: '',
+        cep_trabalho: '',
+        cep_trabalho_conjugue: '',
+        cep_trabalho_conjugue_fiador: '',
+        cep_trabalho_fiador: '',
+        cic_conjuge_fiador: '',
+        cis_fiador: '',
+        ds_admissao: '',
+        ds_admissao_conjugue: '',
+        ds_admissao_conjugue_fiador: '',
+        ds_admissao_fiador: '',
+        ds_filicao_mae_conjuge: '',
+        ds_filicao_mae_conjuge_fiador: '',
+        ds_filicao_mae_fiador: '',
+        ds_filicao_mae_pessoa: '',
+        ds_filicao_pai_conjuge: '',
+        ds_filicao_pai_conjuge_fiador: '',
+        ds_filicao_pai_fiador: '',
+        ds_filicao_pai_pessoa: '',
+        ds_local_trabalho: '',
+        ds_local_trabalho_conjugue: '',
+        ds_local_trabalho_conjugue_fiador: '',
+        ds_local_trabalho_fiador: '',
+        ds_naturalidade_conjuge: '',
+        ds_naturalidade_conjuge_fiador: '',
+        ds_naturalidade_fiador: '',
+        ds_pessoas_qi_morar: '',
+        dt_cadastro_fiador: '',
+        dt_nascimento_conjuge_fiador: '',
+        dt_nascimento_fiador: '',
+        e_mail_conjugue: '',
+        e_mail_conjugue_fiador: '',
+        e_mail_fiador: '',
+        end_complemento_fiador: '',
+        end_contato: '',
+        end_contato_pr_fiador: '',
+        end_contato_sg: '',
+        end_contato_sg_fiador: '',
+        end_fiador: '',
+        end_trabalho: '',
+        end_trabalho_conjugue: '',
+        end_trabalho_conjugue_fiador: '',
+        end_trabalho_fiador: '',
+        ie_fiador: '',
+        im_fiador: '',
+        nm_adultos: '',
+        nm_conjuge_fiador: '',
+        nm_contato_pr_fiador: '',
+        nm_contato_sg: '',
+        nm_contato_sg_fiador: '',
+        nm_criancas: '',
+        nm_fantasia_fiador: '',
+        nm_fiador: '',
+        nm_pessoas: '',
+        nu_celular_conjuge: '',
+        nu_celular_conjuge_fiador: '',
+        nu_celular_fiador: '',
+        nu_endereco_fiador: '',
+        nu_endereco_trabalho: '',
+        nu_endereco_trabalho_conjugue: '',
+        nu_endereco_trabalho_conjugue_fiador: '',
+        nu_endereco_trabalho_fiador: '',
+        nu_fone_contato: '',
+        nu_fone_contato_pr_fiador: '',
+        nu_fone_contato_sg: '',
+        nu_fone_contato_sg_fiador: '',
+        nu_fone_fiador: '',
+        nu_fone_trabalho: '',
+        nu_fone_trabalho_conjugue: '',
+        nu_fone_trabalho_conjugue_fiador: '',
+        nu_fone_trabalho_fiador: '',
+        nu_fone_zap_fiador: '',
+        num_animais: '',
+        obs_fiador: '',
+        rg_conjuge_fiador: '',
+        rg_fiador: '',
+        tipo_fiador: '',
+        vlr_salario_conjuge: '',
+        vlr_salario_conjuge_fiador: '',
+        vlr_salario_fiador: '',
+        ds_info_imovel_fiador_one: '',
+        cis_fiador_one: '',
+        nm_fiador_one: '',
+        ds_filicao_pai_fiador_one: '',
+        ds_filicao_mae_fiador_one: '',
+        nm_fantasia_fiador_one: '',
+        rg_fiador_one: '',
+        cd_expedidor_fiador_one: '',
+        ds_naturalidade_fiador_one: '',
+        dt_nascimento_fiador_one: '',
+        ie_fiador_one: '',
+        cd_estado_civil_fiador_one: '',
+        im_fiador_one: '',
+        cd_profissao_fiador_one: '',
+        end_fiador_one: '',
+        cd_bairro_fiador_one: '',
+        nu_endereco_fiador_one: '',
+        cep_fiador_one: '',
+        end_complemento_fiador_one: '',
+        cd_cidade_fiador_one: '',
+        cd_tipo_logradouro_fiador_one: '',
+        nu_fone_fiador_one: '',
+        nu_celular_fiador_one: '',
+        tipo_fiador_one: '',
+        e_mail_fiador_one: '',
+        obs_fiador_one: '',
+        cd_escolaridade_fiador_one: '',
+        vlr_salario_fiador_one: '',
+        nu_fone_zap_fiador_one: '',
+        ds_info_imovel_fiador_two: '',
+        cis_fiador_two: '',
+        nm_fiador_two: '',
+        ds_filicao_pai_fiador_two: '',
+        ds_filicao_mae_fiador_two: '',
+        nm_fantasia_fiador_two: '',
+        rg_fiador_two: '',
+        cd_expedidor_fiador_two: '',
+        ds_naturalidade_fiador_two: '',
+        dt_nascimento_fiador_two: '',
+        ie_fiador_two: '',
+        cd_estado_civil_fiador_two: '',
+        im_fiador_two: '',
+        cd_profissao_fiador_two: '',
+        end_fiador_two: '',
+        cd_bairro_fiador_two: '',
+        nu_endereco_fiador_two: '',
+        cep_fiador_two: '',
+        end_complemento_fiador_two: '',
+        cd_cidade_fiador_two: '',
+        cd_tipo_logradouro_fiador_two: '',
+        nu_fone_fiador_two: '',
+        nu_celular_fiador_two: '',
+        tipo_fiador_two: '',
+        e_mail_fiador_two: '',
+        obs_fiador_two: '',
+        cd_escolaridade_fiador_two: '',
+        vlr_salario_fiador_two: '',
+        nu_fone_zap_fiador_two: '',
+        banco: '',
+        nu_fone_banco: '',
+        conta: '',
+        fornecedor: '',
+        nu_fone_fornecedor: ''
 
 
       })
@@ -688,31 +701,31 @@ export const TelaDeCadastro: React.FC = () => {
 
 
   const handleSave = (dados: IFormData) => {
-     /*  try {
-       const isValid = formValidationSchema.validate(formData, { abortEarly: false });
-       console.log('Formulário válido:', isValid);
-     } catch (error) {
-       console.log('Erro de validação:', error);
-     } */
+    /*  try {
+      const isValid = formValidationSchema.validate(formData, { abortEarly: false });
+      console.log('Formulário válido:', isValid);
+    } catch (error) {
+      console.log('Erro de validação:', error);
+    } */
 
     formValidationSchema.validate(dados, { abortEarly: false })
       .then((dadosValidados) => {
         setIsLoading(true)
         ClienteService
-        .updateById({ cgc_pessoa: id, ...dadosValidados })
-        .then((result) => {
-          setIsLoading(false)
-          setIsMensagem('Cliente Atualizado com sucesso');
-          if (result instanceof Error) {
-            alert(result.message);
-          } else {
-            if (isSaveAndClose()) {
-              navigate('/cliente');
+          .updateById({ cgc_pessoa: id, ...dadosValidados })
+          .then((result) => {
+            setIsLoading(false)
+            setIsMensagem('Cliente Atualizado com sucesso');
+            if (result instanceof Error) {
+              alert(result.message);
+            } else {
+              if (isSaveAndClose()) {
+                navigate('/cliente');
+              }
             }
-          }
-        });
+          });
 
-        
+
       })
       .catch((errors: yup.ValidationError) => {
         const validationErrors: IVFormErrors = {}
@@ -730,255 +743,591 @@ export const TelaDeCadastro: React.FC = () => {
   }
 
   const { isAuthenticatedCliente } = useAuthContext()
-  if(!isAuthenticatedCliente){
+  if (!isAuthenticatedCliente) {
     navigate('/')
   }
   return (
     <div className='bg-emerald-800'>
-    <main className="max-w-7xl p-6 mx-auto bg-gray-100 rounded-md shadow-md ">
-      <h1 className='flex items-center justify-center font-bold'>CADASTRO DE LOCATÁRIO PESSOA FÍSICA</h1>
+      <main className="max-w-7xl p-6 mx-auto bg-gray-100 rounded-md shadow-md ">
+        <h1 className='flex items-center justify-center font-bold'>CADASTRO DE LOCATÁRIO PESSOA FÍSICA</h1>
 
-      <VForm ref={formRef} onSubmit={handleSave}>
-        <Box
-          margin={1}
-          display="flex"
-          flexDirection="column"
-          component={Paper}
-          variant="outlined"
-        >
-          <Grid container direction="column" padding={2} spacing={2}>
+        <VForm ref={formRef} onSubmit={handleSave}>
+          <Box
+            margin={1}
+            display="flex"
+            flexDirection="column"
+            component={Paper}
+            variant="outlined"
+          >
+            <Grid container direction="column" padding={2} spacing={2}>
 
-            {isLoading && (
-              <Grid item>
-                <LinearProgress variant="indeterminate" />
-              </Grid>
-            )}
+              {isLoading && (
+                <Grid item>
+                  <LinearProgress variant="indeterminate" />
+                </Grid>
+              )}
+
+              <div className='py-4'>
+                <Stepper activeStep={activeStep} alternativeLabel>
+                  {steps.map((label) => (
+                    <Step key={label}>
+                      <StepLabel>{label}</StepLabel>
+                    </Step>
+                  ))}
+                </Stepper>
+                <div>
+                  {activeStep === steps.length ? (
+                    <div>
+                      <p>Formulário concluído!</p>
+                      <Button onClick={() => setActiveStep(0)}>Reiniciar</Button>
+                    </div>
+                  ) : (
+                    <div>
+                      <Grid item className="h-full p-2">
+                        {activeStep === 0 ?
+                          <>
+                            <Grid item>
+                              <Typography variant="h6" align='center'>Pessoa Física</Typography>
+                            </Grid>
+                            <Grid item my={1}>
+                              <Typography variant="subtitle1">Dados Pessoais</Typography>
+                            </Grid>
+                            <Grid container item direction="row" spacing={2} >
+                              <Grid item xs={12} sm={4} md={3} lg={9} xl={9}>
+                                <VTextField
+                                  fullWidth
+                                  label="Nome Completo"
+                                  name='nm_pessoa'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                                <VTextField
+                                  fullWidth
+                                  label="Email"
+                                  name='e_mail_extrato'
+                                  type='email'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+
+                              <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                                <VTextField
+                                  fullWidth
+                                  label="Whatsapp"
+                                  name='nu_fone_zap'
+                                  type='number'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                                <VTextField
+                                  fullWidth
+                                  label="Celular"
+                                  name='nu_celular_pessoa'
+                                  type='text'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+
+                              <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                                <VTextField
+                                  fullWidth
+                                  label="RG"
+                                  name='rg_pessoa'
+                                  type='text'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={4} md={3} lg={1} xl={1}>
+                                <VTextField
+                                  fullWidth
+                                  label="Expedidor"
+                                  name='ds_expedidor_pessoa'
+                                  type='text'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                                <VTextField
+                                  fullWidth
+                                  label="Naturalidade"
+                                  name='ds_naturalidade_pessoa'
+                                  type='text'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+
+                              <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                                <VTextField
+                                  fullWidth
+                                  label="Data de Nascimento"
+                                  name='dt_nascimento_pessoa'
+                                  type='date'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+
+                              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                                <VTextField
+                                  fullWidth
+                                  label="Profissão"
+                                  name='ds_profissao_pessoa'
+                                  type='text'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                                <VTextField
+                                  fullWidth
+                                  label="Escolaridade"
+                                  name='ds_escolaridade'
+                                  type='text'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                                <VTextField
+                                  fullWidth
+                                  label="Salário"
+                                  name='vlr_salario'
+                                  type='number'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={4} md={3} lg={1} xl={1}>
+                                <VTextField
+                                  fullWidth
+                                  label="sexo"
+                                  name='sexo'
+                                  type='text'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                             
+                            </Grid>
+                            <Grid item my={1}>
+                              <Typography variant="subtitle1">Dados Conjugue</Typography>
+                            </Grid>
+                            <Grid container item direction="row" spacing={2}>
+                            <Grid item xs={12} sm={4} md={3} lg={9} xl={9}>
+                                <VTextField
+                                  fullWidth
+                                  label="Nome"
+                                  name='nm_conjuge'
+                                  type='Text'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid> 
+                              <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                                <VTextField
+                                  fullWidth
+                                  label="CPF"
+                                  name='cic_conjuge'
+                                  type='text'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>    
+                            <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                                <VTextField
+                                  fullWidth
+                                  label="RG"
+                                  name='rg_conjuge'
+                                  type='text'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={4} md={3} lg={1} xl={1}>
+                                <VTextField
+                                  fullWidth
+                                  label="Expedidor"
+                                  name='ds_expedidor_conjuge'
+                                  type='text'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                              
+                              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                                <VTextField
+                                  fullWidth
+                                  label="Data de Nascimento"
+                                  name='dt_nascimento_conjuge'
+                                  type='date'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                                                      
+                            </Grid>  
+
+                            <Grid item my={1}>
+                              <Typography variant="subtitle1">Endereço</Typography>
+                            </Grid>
+                            <Grid container item direction="row" spacing={2}>
+                            <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                                <VTextField
+                                  fullWidth
+                                  label="Cep"
+                                  name='cep_pessoa'
+                                  type='text'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                                <VTextField
+                                  fullWidth
+                                  label="Logradouro"
+                                  name='cd_tipo_logradouro_pessoa'
+                                  type="text"
+                                  disabled={isLoading}
+                                  size='small'
+
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={4} md={3} lg={4} xl={4}>
+                                <VTextField
+                                  fullWidth
+                                  label="Endereço"
+                                  name='end_pessoa'
+                                  type="text"
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={3} md={3} lg={1} xl={1}>
+                                <VTextField
+                                  fullWidth
+                                  label="N°"
+                                  name='nu_endereco_pessoa'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                                <VTextField
+                                  fullWidth
+                                  label="Complemento"
+                                  name='end_complemento_pessoa'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                                <VTextField
+                                  fullWidth
+                                  label="Cidade"
+                                  name='cd_cidade_pessoa'
+                                  disabled={isLoading}
+                                  size='small'
+                                />
+                              </Grid>
+
+                            </Grid>
+                                                     
+                          </>
+                          :  activeStep === 1 ?  <>
+                          <Grid item>
+                            <Typography variant="h6" align='center'>Fiador</Typography>
+                          </Grid>
+                          <Grid item my={1}>
+                            <Typography variant="subtitle1">Dados Pessoais</Typography>
+                          </Grid>
+                          <Grid container item direction="row" spacing={2} >
+                            <Grid item xs={12} sm={4} md={3} lg={9} xl={9}>
+                              <VTextField
+                                fullWidth
+                                label="Nome Completo"
+                                name='nm_fiador'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                              <VTextField
+                                fullWidth
+                                label="Email"
+                                name='e_mail_fiador'
+                                type='email'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+
+                            <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                              <VTextField
+                                fullWidth
+                                label="Whatsapp"
+                                name='nu_fone_zap_fiador'
+                                type='number'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                              <VTextField
+                                fullWidth
+                                label="Celular"
+                                name='nu_celular_fiador'
+                                type='text'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+
+                            <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                              <VTextField
+                                fullWidth
+                                label="RG"
+                                name='rg_fiador'
+                                type='text'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={4} md={3} lg={1} xl={1}>
+                              <VTextField
+                                fullWidth
+                                label="Expedidor"
+                                name='ds_expedidor_fiador'
+                                type='text'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                              <VTextField
+                                fullWidth
+                                label="Naturalidade"
+                                name='ds_naturalidade_fiador'
+                                type='text'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+
+                            <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                              <VTextField
+                                fullWidth
+                                label="Data de Nascimento"
+                                name='dt_nascimento_fiador'
+                                type='date'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+
+                            <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                              <VTextField
+                                fullWidth
+                                label="Profissão"
+                                name='ds_profissao_fiador'
+                                type='text'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                              <VTextField
+                                fullWidth
+                                label="Escolaridade"
+                                name='ds_escolaridade_fiador'
+                                type='text'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                              <VTextField
+                                fullWidth
+                                label="Salário"
+                                name='vlr_salario_fiador'
+                                type='number'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+                            
+                           
+                          </Grid>
+                          <Grid item my={1}>
+                            <Typography variant="subtitle1">Dados Conjugue</Typography>
+                          </Grid>
+                          <Grid container item direction="row" spacing={2}>
+                          <Grid item xs={12} sm={4} md={3} lg={9} xl={9}>
+                              <VTextField
+                                fullWidth
+                                label="Nome"
+                                name='nm_conjuge_fiador'
+                                type='Text'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid> 
+                            <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                              <VTextField
+                                fullWidth
+                                label="CPF"
+                                name='cic_conjuge_fiador'
+                                type='text'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>    
+                          <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                              <VTextField
+                                fullWidth
+                                label="RG"
+                                name='rg_conjuge_fiador'
+                                type='text'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={4} md={3} lg={1} xl={1}>
+                              <VTextField
+                                fullWidth
+                                label="Expedidor"
+                                name='ds_expedidor_conjuge_fiador'
+                                type='text'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+                            
+                            <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                              <VTextField
+                                fullWidth
+                                label="Data de Nascimento"
+                                name='dt_nascimento_conjuge_fiador'
+                                type='date'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+                                                    
+                          </Grid>  
+
+                          <Grid item my={1}>
+                            <Typography variant="subtitle1">Endereço</Typography>
+                          </Grid>
+                          <Grid container item direction="row" spacing={2}>
+                          <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                              <VTextField
+                                fullWidth
+                                label="Cep"
+                                name='cep_fiador'
+                                type='text'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+                              <VTextField
+                                fullWidth
+                                label="Logradouro"
+                                name='cd_tipo_logradouro_fiador'
+                                type="text"
+                                disabled={isLoading}
+                                size='small'
+
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={4} md={3} lg={4} xl={4}>
+                              <VTextField
+                                fullWidth
+                                label="Endereço"
+                                name='end_fiador'
+                                type="text"
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={3} md={3} lg={1} xl={1}>
+                              <VTextField
+                                fullWidth
+                                label="N°"
+                                name='nu_endereco_fiador'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                              <VTextField
+                                fullWidth
+                                label="Complemento"
+                                name='end_complemento_fiador'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                              <VTextField
+                                fullWidth
+                                label="Cidade"
+                                name='cd_cidade_fiador'
+                                disabled={isLoading}
+                                size='small'
+                              />
+                            </Grid>
+
+                          </Grid>
+                                                   
+                        </> :
+                        <>
+                       <Box height={'auto'} minHeight={'70vh'} className={'flex justify-center flex-col text-center'}>
+                       <Typography variant="h5">Formulário concluído!</Typography>
+      <Typography variant="subtitle1">Parabéns, você finalizou o a etapa de Cadastro.</Typography>
+      <Typography variant="subtitle1">Por favor enviar a documentação solicitada para seu corretor, e seu cadastro logo será analisado.</Typography>
+                        <Button type='submit'>Enviar</Button>
+                       </Box>
+                        </>
+                         
+                        }
+
+                      </Grid>
+                      <div className='flex justify-between'>
+                        <Button disabled={activeStep === 0} onClick={handleBack}>
+                          Voltar
+                        </Button>
+                        {activeStep === steps.length - 1 ? '' : <Button variant="contained" onClick={handleNext}>
+                          {activeStep === steps.length - 1 ? 'Concluir' : 'Próximo'}
+                  
+                        </Button>}
+
+                        {/* <Button variant="contained" onClick={handleNext}>
+                          {activeStep === steps.length - 1 ? 'Concluir' : 'Próximo'}
+                  
+                        </Button> */}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
 
 
-            <Grid item>
-              <Typography variant="h6">Pessoa Física</Typography>
+
             </Grid>
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Nome"
-                  name='nm_pessoa'
-                  disabled={isLoading}                 
-                />
-              </Grid>
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Email"
-                  name='e_mail_extrato'
-                  type='email'
-                  disabled={isLoading}                 
-                />
-              </Grid>
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Logradouro"
-                  name='cd_tipo_logradouro_pessoa'
-                  type="text"
-                  disabled={isLoading}
-
-                />
-              </Grid>
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Endereço"
-                  name='end_pessoa'
-                  type="text"
-                  disabled={isLoading}
-
-                />
-              </Grid>
-              <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="N°"
-                  name='nu_endereco_pessoa'
-                  disabled={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Complemento"
-                  name='end_complemento_pessoa'
-                  disabled={isLoading}
-                />
-              </Grid>
-              <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Cidade"
-                  name='cd_cidade_pessoa'
-                  disabled={isLoading}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Cep"
-                  name='cep_pessoa'
-                  type='text'
-                  disabled={isLoading}
-                />
-              </Grid>              
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Whatsapp"
-                  name='nu_fone_zap'
-                  type='number'
-                  disabled={isLoading}
-                />
-              </Grid>              
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Celular"
-                  name='nu_celular_pessoa'
-                  type='text'
-                  disabled={isLoading}
-                />
-              </Grid>              
-            </Grid>
-
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="RG"
-                  name='rg_pessoa'
-                  type='text'
-                  disabled={isLoading}
-                />
-              </Grid>              
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Expedidor"
-                  name='cd_expedidor_pessoa'
-                  type='number'
-                  disabled={isLoading}
-                />
-              </Grid>              
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Naturalidade"
-                  name='ds_naturalidade_pessoa'
-                  type='text'
-                  disabled={isLoading}
-                />
-              </Grid>              
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Data de Nascimento"
-                  name='dt_nascimento_pessoa'
-                  type='date'
-                  disabled={isLoading}
-                />
-              </Grid>              
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Profissão"
-                  name='cd_profissao_pessoa'
-                  type='number'
-                  disabled={isLoading}
-                />
-              </Grid>              
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Escolaridade"
-                  name='cd_escolaridade'
-                  type='number'
-                  disabled={isLoading}
-                />
-              </Grid>              
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Salário"
-                  name='vlr_salario'
-                  type='number'
-                  disabled={isLoading}
-                />
-              </Grid>              
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="sexo"
-                  name='sexo'
-                  type='text'
-                  disabled={isLoading}
-                />
-              </Grid>              
-            </Grid>
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="RG"
-                  name='rg_conjuge'
-                  type='text'
-                  disabled={isLoading}
-                />
-              </Grid>              
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Expedidor"
-                  name='cd_expedidor_conjuge'
-                  type='number'
-                  disabled={isLoading}
-                />
-              </Grid>              
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="CPF"
-                  name='cic_conjuge'
-                  type='text'
-                  disabled={isLoading}
-                />
-              </Grid>              
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Data de Nascimento"
-                  name='dt_nascimento_conjuge'
-                  type='date'
-                  disabled={isLoading}
-                />
-              </Grid>                  
-              <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                <VTextField
-                  fullWidth
-                  label="Nome"
-                  name='nm_conjuge'
-                  type='Text'
-                  disabled={isLoading}
-                />
-              </Grid>                                                 
-            </Grid>
-
-          </Grid>
-        </Box>
-        <Button type='submit'>Enviar</Button>
-      </VForm>
-    </main>
+          </Box>
+         
+        </VForm>
+      </main>
 
     </div>
   )

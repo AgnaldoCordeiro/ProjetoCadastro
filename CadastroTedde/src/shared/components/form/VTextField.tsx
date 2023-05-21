@@ -20,7 +20,7 @@ export const VTextField: React.FC<TVTextFieldPRops> = ({ name, ...rest }) => {
   return (
     <TextField
       {...rest}
-
+      InputLabelProps={{ shrink: true }} 
       error={!!error}
       helperText={error}
       defaultValue={defaultValue}
